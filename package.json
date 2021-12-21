@@ -1,0 +1,21 @@
+{
+  "name": "umzug-clickhouse-storage",
+  "version": "1.0.0",
+  "description": "Clickhouse storage for umzug",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "clickhouse",
+    "umzug",
+    "migration",
+    "storage"
+  ],
+  "author": "Aleksandr Panteleev",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
