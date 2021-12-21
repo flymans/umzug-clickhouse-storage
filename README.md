@@ -2,6 +2,11 @@
 
 Clickhouse storage for umzug
 
+Install:
+```
+npm i umzug-clickhouse-storage
+```
+
 Usage:
 ```javascript
 const clickhouseConfig = new ClickHouse({
