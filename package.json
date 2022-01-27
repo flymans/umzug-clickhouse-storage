@@ -1,6 +1,6 @@
 {
   "name": "umzug-clickhouse-storage",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Clickhouse storage for umzug",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

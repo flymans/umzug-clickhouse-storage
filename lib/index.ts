@@ -10,9 +10,7 @@ export class ClickhouseStorage {
   private readonly columnName;
 
   constructor({ clickhouse, tableName = 'clickhouse_meta', columnName = 'name' }) {
-    if (!clickhouse) {
-      throw new Error('Please provide clickhouse instance');
-    }
+    if (!clickhouse) throw new Error('Please provide clickhouse instance');
 
     this.clickhouse = clickhouse;
     this.tableName = tableName;
@@ -46,15 +44,13 @@ export class ClickhouseStorage {
   }
 
   async createTable(): Promise<void> {
-    if (this.tableCreated) {
-      return;
-    }
+    if (this.tableCreated) return;
 
     await this.clickhouse.query(`
       CREATE TABLE IF NOT EXISTS ${this.database}.${this.tableName}
       (
-        ${(this.columnName)} TEXT NOT NULL,
-        status ENUM('executed' = 1, 'pending' = 2),
+        ${(this.columnName)} TEXT,
+        status Enum('executed' = 1, 'pending' = 2),
         version UInt8
       )
       ENGINE = ReplacingMergeTree(version)
@@ -69,14 +65,9 @@ export class ClickhouseStorage {
       `SELECT MAX(version) as maxVersion FROM ${this.database}.${this.tableName} WHERE name = '${migrationName}'`,
     ).toPromise();
 
-    const migration = {
-      name: migrationName,
-      status,
-      version: maxVersion + 1,
-    };
-
     await this.clickhouse.insert(
-      `INSERT INTO ${this.database}.${this.tableName} (${Object.keys(migration).join(', ')})`, migration,
+      `INSERT INTO ${this.database}.${this.tableName} (name, status, version)`,
+      { name: migrationName, status, version: maxVersion + 1 },
     ).toPromise();
   }
 }
